@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#181922">
+  <title>Loop Foundry</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="sequencer.js" defer></script>
+  <script src="synth.js" defer></script>
+  <script src="audio.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><div class="frame top">
+    <div class="brand"><span class="mark" aria-hidden="true"><i></i><i></i><i></i></span><strong>Loop Foundry</strong></div>
+    <div class="files"><button type="button" id="open-project">Open project</button><button type="button" id="save-project">Save project</button><input type="file" id="project-file" accept=".json,application/json" hidden></div>
+  </div></header>
+  <main class="frame">
+    <div class="intro"><h1>Beat sequencer</h1><p>Build a drum loop, shape the mix, and export it as audio.</p></div>
+    <div class="transport panel" role="group" aria-label="Playback controls">
+      <div class="playback"><button type="button" id="play" class="primary"><span class="play-icon" aria-hidden="true"></span><span id="play-label">Play</span></button><span id="position">Stopped</span></div>
+      <label class="tempo">Tempo <span><input id="tempo" type="number" min="60" max="180" step="1" value="112"><small>BPM</small></span></label>
+      <label class="swing">Swing <span><input id="swing" type="range" min="0" max="50" value="0"><output for="swing" id="swing-value">0%</output></span></label>
+      <div class="export-actions"><span>4 bars</span><button type="button" id="export">Export WAV <span aria-hidden="true">↓</span></button></div>
+    </div>
+    <p id="notice" role="status"></p>
+    <div class="studio">
+      <section class="panel sequencer" aria-labelledby="grid-title">
+        <div class="section-head"><h2 id="grid-title">Pattern editor</h2><div class="presets"><label for="preset">Preset</label><select id="preset"><option value="" disabled>Custom pattern</option></select></div></div>
+        <div class="editor-controls">
+          <label class="length">Loop length <select id="length"><option value="1">1 bar</option><option value="2">2 bars</option><option value="4">4 bars</option></select></label>
+          <div class="bar-group"><span>Editing bar</span><div id="bars" role="group" aria-label="Choose a bar to edit"></div></div>
+          <button id="accent" type="button" aria-pressed="false" title="Accent mode makes the selected step louder. Shift-click also accents a step."><span aria-hidden="true">◆</span> Accent</button>
+        </div>
+        <div class="overflow" tabindex="0" role="region" aria-label="Drum grid. Use arrow keys to move between steps, Enter or Space to toggle.">
+          <div class="grid" id="grid"></div>
+        </div>
+        <div class="editor-foot">
+          <div class="legend" aria-hidden="true"><span><i class="legend-hit"></i> Hit</span><span><i class="legend-accent">◆</i> Accent</span><span><i class="legend-playhead"></i> Playhead</span></div>
+          <div class="edit-actions"><button type="button" id="copy-previous" disabled>Copy previous bar</button><button type="button" id="clear">Clear bar</button></div>
+        </div>
+      </section>
+      <aside class="panel mixer" aria-labelledby="mixer-title">
+        <div class="section-head"><h2 id="mixer-title">Mixer</h2></div>
+        <div id="mix-tracks"></div>
+        <div class="mix-master"><label for="master">Master volume</label><output for="master" id="master-value">100%</output><input type="range" id="master" min="0" max="100" value="100"></div>
+      </aside>
+    </div>
+  </main>
+  <template id="mix-template">
+    <div class="mix-track">
+      <div class="mix-heading"><label></label><output></output></div>
+      <div class="mix-controls"><input type="range" min="0" max="100"><button type="button" class="mute" aria-pressed="false">M</button><button type="button" class="solo" aria-pressed="false">S</button></div>
+    </div>
+  </template>
+</body>
+</html>
